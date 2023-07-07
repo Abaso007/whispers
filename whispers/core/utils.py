@@ -40,26 +40,17 @@ def load_regex(regex: str, flags: Optional[re.RegexFlag] = 0) -> Pattern:
 def load_yaml_from_file(filepath: Path) -> dict:
     """Safe load yaml from given file path"""
     ret = safe_load(filepath.read_text())
-    if not isinstance(ret, dict):
-        return {}
-
-    return ret
+    return {} if not isinstance(ret, dict) else ret
 
 
 def truncate_all_space(value: str) -> str:
     """Replace multiple space characters by a single space character"""
-    if not value:
-        return ""
-
-    return re.sub(r"\s+", " ", value)
+    return "" if not value else re.sub(r"\s+", " ", value)
 
 
 def strip_string(value: str) -> str:
     """Strips leading and trailing quotes and spaces"""
-    if not value:
-        return ""
-
-    return str(value).strip(" '\"\n\r\t")
+    return "" if not value else value.strip(" '\"\n\r\t")
 
 
 def simple_string(value: str) -> str:
@@ -129,13 +120,7 @@ def is_static(key: str, value: str) -> bool:
     if s_value.endswith(s_key):
         return False  # Placeholder
 
-    if is_iac(value):
-        return False  # IaC !Ref !Sub ...
-
-    if is_path(value):
-        return False  # System path
-
-    return True  # Hardcoded static value
+    return False if is_iac(value) else not is_path(value)
 
 
 def is_ascii(data: str) -> bool:
@@ -149,11 +134,7 @@ def is_ascii(data: str) -> bool:
     if not isinstance(data, (str, int)):
         return False
 
-    for ch in str(data):
-        if ch not in string.printable:
-            return False
-
-    return True
+    return all(ch in string.printable for ch in str(data))
 
 
 def is_base64(data: str) -> bool:
@@ -189,10 +170,7 @@ def is_uri(data: str) -> bool:
     if any(map(lambda ch: ch in data, string.whitespace)):
         return False
 
-    if not REGEX_URI.match(data):
-        return False
-
-    return True
+    return bool(REGEX_URI.match(data))
 
 
 def is_path(data: str) -> bool:
@@ -200,13 +178,7 @@ def is_path(data: str) -> bool:
     if not is_ascii(data):
         return False
 
-    if isinstance(data, int):
-        return False
-
-    if not REGEX_PATH.match(data):
-        return False
-
-    return True
+    return False if isinstance(data, int) else bool(REGEX_PATH.match(data))
 
 
 def is_iac(data: str) -> bool:
@@ -214,13 +186,7 @@ def is_iac(data: str) -> bool:
     if not is_ascii(data):
         return False
 
-    if isinstance(data, int):
-        return False
-
-    if not REGEX_IAC.match(data):
-        return False
-
-    return True
+    return False if isinstance(data, int) else bool(REGEX_IAC.match(data))
 
 
 def is_luhn(data: str) -> bool:
@@ -228,10 +194,7 @@ def is_luhn(data: str) -> bool:
     if not is_ascii(data):
         return False
 
-    if not str(data).isnumeric():
-        return False
-
-    return luhn_verify(str(data))
+    return False if not data.isnumeric() else luhn_verify(data)
 
 
 def is_similar(key: str, value: str, similarity: float) -> bool:

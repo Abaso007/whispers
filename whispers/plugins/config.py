@@ -51,9 +51,7 @@ class Config:
 
             key, value = line.split("=", 1)
             key = strip_string(key)
-            value = strip_string(value)
-
-            if value:
+            if value := strip_string(value):
                 yield KeyValuePair(key, value, line=lineno)
 
     @staticmethod

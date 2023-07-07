@@ -11,7 +11,6 @@ class Pip:
             if "http" not in line:
                 continue
 
-            value = urlparse(line.split("=")[-1].strip()).password
-            if value:
+            if value := urlparse(line.split("=")[-1].strip()).password:
                 key = "pip password"
                 yield KeyValuePair(key, value, line=lineno)

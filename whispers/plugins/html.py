@@ -12,6 +12,5 @@ class Html:
         soup = BeautifulSoup(filepath.read_text(), "lxml")
         key = "comment"
         for comment in soup.find_all(text=lambda text: isinstance(text, Comment)):
-            comment = truncate_all_space(comment.extract()).strip()
-            if comment:
+            if comment := truncate_all_space(comment.extract()).strip():
                 yield KeyValuePair(key, comment, [key])

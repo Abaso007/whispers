@@ -9,11 +9,8 @@ from whispers.plugins.common import Common
 class Plaintext:
     def pairs(self, filepath: Path) -> Iterator[KeyValuePair]:
         for lineno, line in enumerate(filepath.open(), 1):
-            line = strip_string(line)
-            if not line:
-                continue
-
-            yield from self.common_pairs(line, lineno)
+            if line := strip_string(line):
+                yield from self.common_pairs(line, lineno)
 
     def common_pairs(self, text: str, lineno: int) -> Iterator[KeyValuePair]:
         yield from Common(line=lineno).pairs(text)

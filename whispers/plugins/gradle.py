@@ -14,6 +14,5 @@ class Gradle:
             if key not in line:
                 continue
 
-            value = line.split(key)[-1].strip(":) ")
-            if value:
+            if value := line.split(key)[-1].strip(":) "):
                 yield KeyValuePair(key, value, line=lineno)

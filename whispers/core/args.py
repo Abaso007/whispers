@@ -64,11 +64,7 @@ def parse_args(arguments: list = argv[1:]) -> Namespace:
 
     logging.basicConfig(format="[%(levelname)s] %(message)s", level=args.debug, handlers=[args.log])
 
-    if args.output:
-        args.output = open(args.output, "w")
-    else:
-        args.output = stdout
-
+    args.output = open(args.output, "w") if args.output else stdout
     if args.files:
         args.files = args.files.split(",")
 

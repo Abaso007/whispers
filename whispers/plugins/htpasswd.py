@@ -12,7 +12,6 @@ class Htpasswd:
                 continue
 
             creds = line.strip().split(":")
-            value = strip_string(creds[1])
-            if value:
+            if value := strip_string(creds[1]):
                 key = "htpasswd hash"
                 yield KeyValuePair(key, value, line=lineno)

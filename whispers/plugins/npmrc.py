@@ -10,7 +10,6 @@ class Npmrc:
             if ":_authToken=" not in line:
                 continue
 
-            value = line.split(":_authToken=")[-1].strip()
-            if value:
+            if value := line.split(":_authToken=")[-1].strip():
                 key = "npm authToken"
                 yield KeyValuePair(key, value, line=lineno)

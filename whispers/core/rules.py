@@ -44,11 +44,8 @@ def load_rules(args: Namespace, config: AppConfig) -> List[dict]:
         applicable_rules.append(Rule(rule))
 
     # Load inline rules from config file (if any)
-    for rule in include_rule_ids:
-        if isinstance(rule, str):
-            continue  # Not an inline rule
-
-        applicable_rules.append(Rule(rule))
-
+    applicable_rules.extend(
+        Rule(rule) for rule in include_rule_ids if not isinstance(rule, str)
+    )
     logging.debug(f"load_rules loaded {len(applicable_rules)} rules")
     return applicable_rules

@@ -23,8 +23,7 @@ class Common:
         words = value.split(" ")
         uris = map(self.parse_uri, words)
         arns = map(self.parse_arn, words)
-        parsed = chain.from_iterable([*uris, *arns])
-        yield from parsed
+        yield from chain.from_iterable([*uris, *arns])
 
     def parse_uri(self, text: str) -> Iterator[KeyValuePair]:
         """Check if text resembles a Uniform Resource Identifier (URI)"""

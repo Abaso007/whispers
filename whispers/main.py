@@ -38,9 +38,7 @@ def run(args: Namespace) -> Iterator[KeyValuePair]:
     scope = load_scope(args, config)
     parsed = map(lambda file: make_pairs(config, file), scope)
     detected = map(lambda pairs: detect_secrets(rules, pairs), parsed)
-    secrets = chain.from_iterable(detected)
-
-    return secrets
+    return chain.from_iterable(detected)
 
 
 if __name__ == "__main__":
