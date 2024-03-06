@@ -55,10 +55,8 @@ class Shell:
             if ":-" in value and value.startswith("${") and value.endswith("}"):
                 key, value = value[2:-1].split(":-")  # Default value
 
-            if not (key or value):
-                continue
-
-            yield KeyValuePair(key, value, line=lineno)
+            if key or value:
+                yield KeyValuePair(key, value, line=lineno)
 
     def curl(self, cmd: List[str], lineno: int) -> Iterator[KeyValuePair]:
         key = "password"
@@ -77,8 +75,5 @@ class Shell:
             if indicator in indicators_single:
                 yield KeyValuePair(key, credentials, [key])
 
-            else:
-                if ":" not in credentials:
-                    continue  # Password not specified
-
+            elif ":" in credentials:
                 yield KeyValuePair(key, credentials.split(":")[1], keypath=[key], line=lineno)

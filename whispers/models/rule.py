@@ -48,10 +48,7 @@ class Specification:
         if self.isUri is not None and self.isUri is not is_uri(target):
             return False
 
-        if self.isLuhn is not None and self.isLuhn is not is_luhn(target):
-            return False
-
-        return True
+        return self.isLuhn is None or self.isLuhn is is_luhn(target)
 
 
 @dataclass
@@ -78,11 +75,10 @@ class Rule:
     @staticmethod
     def _get_required(idx: str, rule: Dict) -> Any:
         """Get a required rule value"""
-        value = rule.get(idx, False)
-        if not value:
+        if value := rule.get(idx, False):
+            return value
+        else:
             raise IndexError(f"Missing rule '{idx}' specification: '{rule}'")
-
-        return value
 
     @staticmethod
     def _get_spec(idx: str, rule: Dict) -> Optional[Specification]:
@@ -103,7 +99,4 @@ class Rule:
         if self.value and not self.value.matches(pair.value):
             return False
 
-        if is_similar(pair.key, pair.value, self.similar):
-            return False
-
-        return True
+        return not is_similar(pair.key, pair.value, self.similar)

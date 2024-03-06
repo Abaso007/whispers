@@ -9,9 +9,7 @@ from whispers.models.rule import Rule
 def detect_secrets(rules: List[Rule], pairs: Iterable[KeyValuePair]) -> Iterator[KeyValuePair]:
     """Detect pairs with hardcoded secrets"""
     for pair in pairs:
-        detected = filter(None, map(lambda rule: filter_rule(rule, pair), rules))
-
-        yield from detected
+        yield from filter(None, map(lambda rule: filter_rule(rule, pair), rules))
 
 
 def filter_rule(rule: Rule, pair: KeyValuePair) -> Optional[KeyValuePair]:

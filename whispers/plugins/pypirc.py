@@ -10,7 +10,6 @@ class Pypirc:
             if "password:" not in line:
                 continue
 
-            value = line.split("password:")[-1].strip()
-            if value:
+            if value := line.split("password:")[-1].strip():
                 key = "pypi password"
                 yield KeyValuePair(key, value, line=lineno)
