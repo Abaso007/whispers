@@ -48,6 +48,7 @@ def test_detect_secrets_by_key(src, expected):
     [
         (".aws/credentials", "Critical", 3),
         (".dockercfg", "High", 1),
+        (".env", "Medium", 4),
         (".htpasswd", "Medium", 2),
         (".npmrc", "High", 5),
         (".pypirc", "High", 1),
@@ -133,7 +134,7 @@ def test_detect_secrets_by_key(src, expected):
     ],
 )
 def test_detect_secrets_by_value(src, severity, expected):
-    args = parse_args(["--ast", "--severity", severity, fixture_path(src)])
+    args = parse_args(["--severity", severity, fixture_path(src)])
     config = load_config(args)
     rules = load_rules(args, config)
     pairs = make_pairs(config, FIXTURE_PATH.joinpath(src))
