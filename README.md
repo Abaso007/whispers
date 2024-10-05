@@ -9,7 +9,7 @@
 
 > "My little birds are everywhere, even in the North, they whisper to me the strangest stories." - _Varys_
 
-Whispers is an information security analysis tool designed for identifying <u>**hardcoded secrets in structured text and static code**</u> ([CWE-798](https://cwe.mitre.org/data/definitions/798.html)). Whispers can be used as a [standalone binary](https://github.com/adeptex/whispers#download), or as a [Python module](https://github.com/adeptex/whispers#install), which is meant to facilitate its usage individually and as part of automated processes and pipelines at scale.
+Whispers is an information security analysis tool designed for identifying <u>**hardcoded secrets in structured text and static code**</u> ([CWE-798](https://cwe.mitre.org/data/definitions/798.html)). Whispers can be used as a [standalone binary](https://github.com/adeptex/whispers#download), or as a [Python module](https://github.com/adeptex/whispers#install), which is meant to facilitate its usage individually, and in automated processes and pipelines at scale.
 
 * :clipboard: [Release notes](https://github.com/adeptex/whispers/blob/master/RELEASE_NOTES.md)
 * :gear: [Request a feature](https://github.com/adeptex/whispers/issues/new?assignees=&labels=&template=feature_request.md&title=)
@@ -252,28 +252,26 @@ Simple filtering based on rules and severity can also be done with CLI arguments
 
 | Group                | Rule ID              | Severity        |
 |----------------------|----------------------|-----------------|
-| files                | file-known           | Low             |
+| keys                 | aws-secret           | Critical        |
+| keys                 | aws-token            | Critical        |
+| keys                 | privatekey           | Critical        |
+| keys                 | apikey-known         | Critical        |
+| keys                 | apikey               | High            |
+| keys                 | aws-id               | Medium          |
+| keys                 | aws-account          | Low             |
+| keys                 | apikey-maybe         | Low             |
+| passwords            | password             | High            |
+| passwords            | uri                  | High            |
 | infra                | dockercfg            | High            |
-| infra                | htpasswd             | Medium          |
 | infra                | npmrc                | High            |
 | infra                | pip                  | High            |
 | infra                | pypirc               | High            |
-| keys                 | apikey               | Medium          |
-| keys                 | apikey-known         | High            |
-| keys                 | apikey-maybe         | Low             |
-| keys                 | aws-id               | Critical        |
-| keys                 | aws-secret           | Critical        |
-| keys                 | aws-token            | Critical        |
-| keys                 | privatekey           | High            |
-| misc                 | comment              | Info            |
+| infra                | htpasswd             | Medium          |
+| misc                 | webhook              | Medium          |
 | misc                 | creditcard           | Low             |
 | misc                 | secret               | Low             |
-| misc                 | webhook              | Low             |
-| passwords            | password             | High            |
-| passwords            | uri                  | High            |
-| python               | cors                 | Low             |
-| python               | system               | Low             |
-
+| misc                 | comment              | Info            |
+| files                | file-known           | Low             |
 
 ### Custom rules
 
